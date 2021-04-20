@@ -39,6 +39,14 @@ const routes = [
       title: '我的'
     },
     component: () => import('../views/profile/profile.vue')
+  },
+  {
+    path: '/detail/:iid',
+    name: 'detail',
+    meta: {
+      title: '详情'
+    },
+    component: () => import('../views/detail/detail.vue')
   }
 
 ]

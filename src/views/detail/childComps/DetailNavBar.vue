@@ -11,7 +11,6 @@
           {{item}}
       </span>
     </div>
-    <template v-slot:right>11</template>
   </nav-bar>
 </div>
 </template>
@@ -29,6 +28,7 @@ export default {
   methods: {
     navClick (index) {
       this.isCurIndex = index
+      this.$emit('tabClick', index)
     },
     backClick () {
       this.$router.back()

@@ -25,10 +25,10 @@ import MySwiper from 'components/common/swiper/index'
 import TabControl from 'components/common/tabControl/tabControl'
 import GoodsList from 'components/content/goods/GoodsList'
 import Scroll from 'components/common/scroll/scroll.vue'
-import BackTop from 'components/content/backTop'
 
 import { getHomeMUltidata, getHomeGoods } from '@/api/home'
 import debounce from '@/utils/debounce'
+import { itemListerMixin } from '@/utils/mixin'
 
 export default {
   components: {
@@ -39,9 +39,9 @@ export default {
     MySwiper,
     TabControl,
     GoodsList,
-    Scroll,
-    BackTop
+    Scroll
   },
+  mixins: [itemListerMixin],
   name: 'home',
   data () {
     return {
@@ -53,9 +53,9 @@ export default {
         sell: { page: 0, list: [] }
       },
       currentType: 'pop',
-      isShow: false,
       tabOffsetTop: 0,
-      isTabFixed: false
+      isTabFixed: false,
+      saveY: 0
     }
   },
   created () {
@@ -71,10 +71,6 @@ export default {
     })
     // console.log(this.$refs.tabControl.$el.offsetTop)
   },
-  // updated () {
-  //   console.log(this.tabOffsetTop)
-  //   this.tabOffsetTop = this.$refs.tabControl.$el.offsetTop
-  // },
   methods: {
     // 请求轮播图和轮播图下面的数据
     getHomeMUltidata () {
@@ -103,27 +99,35 @@ export default {
       this.$refs.tabControl1.curIndex = index
       this.$refs.tabControl2.curIndex = index
     },
-    // 返回顶部
-    backTap () {
-      this.$refs.myScroll.scrollTo(0, 0)
-    },
+    // // 返回顶部
+    // backTap () {
+    //   this.$refs.myScroll.scrollTo(0, 0)
+    // },
     // 滚动底部显示或隐藏
     contentScroll (position) {
       // 1、判断backTop是否显示
       // Math.abs(position.y) > 3000 ? this.isShow = true : this.isShow = false
-      this.isShow = Math.abs(position.y) > 3000
+      // this.isShow = Math.abs(position.y) > 3000
+      this.backTapScroll(position)
       // 2、决定tabControl是否吸顶
       this.isTabFixed = Math.abs(position.y) > this.tabOffsetTop - 40
     },
     // 上拉加载更多
     loadMore () {
-      // this.getHomeGoods(this.currentType)
+      this.getHomeGoods(this.currentType)
     },
     // 图片加载完后，获取tabControl2的offsetTop
     swiperImageLoad () {
       this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop
-      console.log(this.tabOffsetTop)
     }
+  },
+  activated () {
+    this.$refs.myScroll.scrollTo(0, this.saveY, 1)
+    this.$refs.myScroll.refresh()
+  },
+  deactivated () {
+    this.saveY = this.$refs.myScroll.getScroll()
+    console.log(this.saveY)
   }
 }
 </script>

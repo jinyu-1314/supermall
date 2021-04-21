@@ -4,6 +4,10 @@ export const getDetail = (iid) => {
   return http.get('/detail', { params: { iid } })
 }
 
+export const getRecommend = (id) => {
+  return http.get('/recommend', { params: { _id: id } })
+}
+
 export class Goods {
   constructor (itemInfo, columns, services) {
     this.title = itemInfo.title

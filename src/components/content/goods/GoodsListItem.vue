@@ -1,7 +1,6 @@
 <template>
 <div class="goods-list-item" @click="itemClick">
-    <img :src="goodsItem.show.img" alt="" @load="imageLoad">
-    <!-- <img :src="goodsItem.show.img" alt=""> -->
+    <img v-lazy="goodsItem.image||goodsItem.show.img" alt="" @load="imageLoad">
     <div class="goods-info">
       <p>{{goodsItem.title}}</p>
       <span class="price">{{goodsItem.price}}</span>
@@ -26,7 +25,15 @@ export default {
   },
   methods: {
     imageLoad () {
-      this.$bus.$emit('itemImageLoad')
+      if (this.$route.path === '/home') {
+        this.$bus.$emit('itemImageLoad')
+        // console.log('首页')
+      }
+
+      if (this.$route.path.indexOf('detail')) {
+        // console.log('详情')
+        this.$bus.$emit('itemImageLoadqq')
+      }
     },
     itemClick () {
       this.$router.push('/detail/' + this.goodsItem.iid)

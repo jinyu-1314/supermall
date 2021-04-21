@@ -76,6 +76,9 @@ export default {
       setTimeout(() => {
         this.bscroll && this.bscroll.finishPullUp()
       }, 1000)
+    },
+    getScroll () {
+      return this.bscroll && this.bscroll.y
     }
   }
 }

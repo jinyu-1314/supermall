@@ -5,6 +5,12 @@ import store from './store'
 import http from './utils/request'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
+import LazyLoad from 'vue-lazyload'
+
+Vue.use(LazyLoad, {
+  loading: require('./assets/img/common/placeholder.png')
+})
+
 Vue.use(VueAwesomeSwiper)
 Vue.prototype.$http = http
 

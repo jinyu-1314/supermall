@@ -11,6 +11,11 @@
           {{item}}
       </span>
     </div>
+    <template v-slot:right >
+      <div @click="toCartClick" class="right">
+          <img src="~assets/img/tabbar/shopcart.svg" alt="">
+      </div>
+    </template>
   </nav-bar>
 </div>
 </template>
@@ -32,6 +37,9 @@ export default {
     },
     backClick () {
       this.$router.back()
+    },
+    toCartClick () {
+      this.$router.replace('/cart')
     }
   }
 }
@@ -39,5 +47,6 @@ export default {
 <style scoped>
 .item-bar{display: flex; justify-content: space-around;}
 .active{color: var(--color-high-text);}
-.left{display: flex; justify-content: center; align-items: center; height: 100%;}
+.left,.right{display: flex; justify-content: center; align-items: center; height: 100%;}
+.right img{width:24px; }
 </style>

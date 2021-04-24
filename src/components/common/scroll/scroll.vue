@@ -41,6 +41,7 @@ export default {
       pullUpLoad: this.pullUpLoad,
       observeDOM: true, // 页面划不动时设置
       click: true
+      // bounce: this.bounce
     })
     // 监听bscroll的监听滚动的位置
     if (this.probeType === 3 || this.probeType === 2) {

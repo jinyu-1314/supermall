@@ -1,19 +1,19 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import Mutations from './mutations'
+import Actions from './actions'
+import Getters from './getters'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    // curIndex: 0
+    isCartShow: false,
+    cartList: []
   },
-  mutations: {
-    tabSelecta (state, index) {
-      state.curIndex = index
-    }
-  },
-  actions: {
-  },
+  mutations: Mutations,
+  actions: Actions,
+  getters: Getters,
   modules: {
   }
 })

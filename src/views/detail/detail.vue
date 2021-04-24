@@ -11,7 +11,8 @@
     <detail-rate-info :rate-info="rateInfo" ref="rate" />
     <goods-list :list="recommendInfo"  ref="recommend" />
   </scroll>
-  <detail-bottom-bar></detail-bottom-bar>
+  <mian-cart-item :addCartInfo ="addCartInfo" :iid="iid" />
+  <detail-bottom-bar @addCart="addCart"></detail-bottom-bar>
 </div>
 </template>
 <script>
@@ -22,13 +23,16 @@ import DetailGoodsInfo from './childComps/DetailGoodsInfo.vue'
 import DetailParamInfo from './childComps/DetailParamInfo.vue'
 import DetailRateInfo from './childComps/DetailRateInfo.vue'
 import DetailBottomBar from './childComps/DetailBottomBar.vue'
+import MianCartItem from './childComps/MianCartItem.vue'
 
 import MySwiper from 'components/common/swiper/index'
 import GoodsList from 'components/content/goods/GoodsList.vue'
 import { getDetail, Goods, Shop, GoodsParams, getRecommend } from '@/api/detail.js'
 import Scroll from 'components/common/scroll/scroll.vue'
+
 import debounce from '@/utils/debounce'
 import { itemListerMixin } from '@/utils/mixin'
+import { mapMutations } from 'vuex'
 export default {
   components: {
     detailNavBar,
@@ -40,7 +44,8 @@ export default {
     DetailParamInfo,
     DetailRateInfo,
     GoodsList,
-    DetailBottomBar
+    DetailBottomBar,
+    MianCartItem
   },
   name: 'detail',
   mixins: [itemListerMixin],
@@ -56,7 +61,8 @@ export default {
       recommendInfo: [],
       id: null,
       themTopY: [],
-      currentIndex: -1
+      currentIndex: -1,
+      addCartInfo: {}
     }
   },
 
@@ -80,6 +86,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['toggleCart']),
     getDetail () {
       // 保存传入 iid 的数据
       this.iid = this.$route.params.iid
@@ -103,6 +110,8 @@ export default {
         if (res.rate) {
           this.rateInfo = res.rate.list[0]
         }
+        // 加入购物车数据
+        this.addCartInfo = res.skuInfo
       })
     },
     imageload () {
@@ -142,6 +151,11 @@ export default {
           this.$refs.nav.isCurIndex = this.currentIndex
         }
       }
+    },
+    addCart () {
+      // 1、获取购物车的展示信息
+      const flag = true
+      this.toggleCart(flag)
     }
   }
 
